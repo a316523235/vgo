@@ -1,7 +1,7 @@
 package main
 
-import "github.com/a316523235/wingo/example"
+import "github.com/a316523235/wingo/service"
 
 func main()  {
-	example.TryMouse1()
+	service.Start()
 }

@@ -2,11 +2,10 @@ package example
 
 import (
 	"fmt"
-	"github.com/a316523235/wingo/common"
+	"github.com/a316523235/wingo/service"
 	"github.com/go-vgo/robotgo"
-	"os"
+	hook "github.com/robotn/gohook"
 	"testing"
-	"time"
 )
 
 func TestMouse1(t *testing.T) {
@@ -46,71 +45,68 @@ func TestMouse7(t *testing.T) {
 }
 
 func TestMouse8(t *testing.T) {
+	// get mouse position
 	robotgo.Sleep(3)
 	x,y := robotgo.GetMousePos()
 	fmt.Println("pos:", x, y)
 }
 
 func TestRecordClickPosition(t *testing.T)  {
-	chMLeft := make(chan bool)
-	chEsc := make(chan bool)
-	cnt := 0
-	posList := [][]int{}
-
-	go func() {
-		for {
-			time.Sleep(300 * time.Millisecond)
-			mleft := robotgo.AddEvent("mleft")
-			chMLeft <- mleft
-		}
-	}()
-
-	for {
-		select {
-		case <-chMLeft:
-			x, y := robotgo.GetMousePos()
-			cnt++
-			fmt.Println(cnt ,"mleft pos:", x, y)
-			posList = append(posList, []int{x,y})
-			if cnt > 10 {
-				fmt.Println(posList)
-				os.Exit(1)
-			}
-		case <-chEsc:
-			fmt.Println("esc over")
-			os.Exit(1)
-		}
-	}
-}
-
-func Esc() {
-	chEsc := make(chan bool)
-	out := time.After(30 * time.Second)
-
-	go func() {
-		chEsc <- robotgo.AddEvent("mleft")
-	}()
-
-	select {
-	case <-chEsc:
-		fmt.Println("esc over")
-		os.Exit(1)
-	case <-out:
-		fmt.Println("timeout over")
-		os.Exit(1)
-	}
+	service.RecordClickPosition()
 }
 
 func TestGotoMergerPage(t *testing.T) {
-	// open wait merge
-	posList := [][]int{{3822,58},{3566,190},{2072,95},{2135,394},{3613,121},{3459,213},{2291,345},{2583,298}}
-	for i, pos := range posList {
-		robotgo.MoveClick(common.To100(pos[0], pos[1]))
-		x, y := robotgo.GetMousePos()
-		fmt.Println(i ,"mleft pos:", x, y)
-		robotgo.Sleep(1)
-	}
+	service.GotoMergerPage()
 }
 
+func TestListenKeys(t *testing.T) {
+	s := hook.Start()
 
+	for i := 0; i < 10; {
+		e := <-s
+		if e.Kind == hook.KeyHold  {
+			i++
+			fmt.Println(e.Keycode)
+		}
+	}
+	//
+	//chKey1, chKey2, chKey3 := make(chan bool), make(chan bool), make(chan bool)
+	//out := time.After(30 * time.Second)
+	//
+	//go func() {
+	//	chKey3 <- robotgo.AddEvents("q", "ctrl", "shift")
+	//}()
+	//
+	//go func() {
+	//	chKey2 <- robotgo.AddEvents("w", "ctrl", "shift")
+	//}()
+	//
+	//
+	//select {
+	//case <-chKey1:
+	//	fmt.Println("num 1")
+	//case <-chKey2:
+	//	fmt.Println("num 2")
+	//case <-chKey3:
+	//	fmt.Println("num 3")
+	//case <-out:
+	//	fmt.Println("time out")
+	//}
+}
+
+func TestGoHook(t *testing.T)  {
+	fmt.Println("--- Please press ctrl + shift + q to stop hook ---")
+	hook.Register(hook.KeyDown, []string{"q", "ctrl", "shift"}, func(e hook.Event) {
+		fmt.Println("ctrl-shift-q")
+		hook.End()
+	})
+
+	fmt.Println("--- Please press w---")
+	hook.Register(hook.KeyDown, []string{"w"}, func(e hook.Event) {
+		fmt.Println("w")
+	})
+
+	s := hook.Start()
+	<-hook.Process(s)
+}
 
