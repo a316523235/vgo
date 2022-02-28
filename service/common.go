@@ -91,18 +91,28 @@ func GotoMergerPage() {
 }
 
 func RecordClickPosition()  {
-	//chMLeft := make(chan bool)
+	chMLeft := make(chan bool, 100)
 	cnt := 0
 	posList := [][]int{}
 
-	for Switch.IsTaskOpen() {
-		time.Sleep(100 * time.Millisecond)
-		robotgo.AddEvent("mleft")
-		x, y := robotgo.GetMousePos()
-		fmt.Println(cnt, "mleft pos:", x, y)
-		cnt++
-		posList = append(posList, []int{x, y})
-	}
+	go func() {
+		for Switch.IsTaskOpen() {
+			time.Sleep(300 * time.Millisecond)
+			chMLeft <- robotgo.AddEvent("mleft")
+		}
+	}()
 
-	fmt.Println(posList)
+	for {
+		select {
+		case <-chMLeft:
+			x, y := robotgo.GetMousePos()
+			cnt++
+			fmt.Println(cnt, "mleft pos:", x, y)
+			posList = append(posList, []int{x, y})
+			if !Switch.IsTaskOpen() || cnt > 10 {
+				fmt.Println(posList)
+				break
+			}
+		}
+	}
 }
