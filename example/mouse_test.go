@@ -55,6 +55,10 @@ func TestRecordClickPosition(t *testing.T)  {
 	service.RecordClickPosition()
 }
 
+func TestRecordClickPosition2(t *testing.T)  {
+	service.RecordClickPosition2()
+}
+
 func TestGotoMergerPage(t *testing.T) {
 	service.GotoMergerPage()
 }
