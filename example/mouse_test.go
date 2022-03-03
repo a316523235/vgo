@@ -56,7 +56,7 @@ func TestRecordClickPosition(t *testing.T)  {
 }
 
 func TestRecordClickPosition2(t *testing.T)  {
-	service.RecordClickPosition2()
+	service.RecordClickPositionV2()
 }
 
 func TestGotoMergerPage(t *testing.T) {
@@ -112,5 +112,9 @@ func TestGoHook(t *testing.T)  {
 
 	s := hook.Start()
 	<-hook.Process(s)
+}
+
+func TestGotoMergerLastSubmitToRelease(t *testing.T)  {
+	service.GotoMergerLastSubmitToRelease()
 }
 
