@@ -19,7 +19,8 @@ func ReadWord() {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-c			break
+		if str == "" {
+			break
 		}
 		strArr = append(strArr, str)
 	}

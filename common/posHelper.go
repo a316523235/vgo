@@ -31,7 +31,7 @@ func AllowEmpty(wordStr string) string {
 }
 
 // ToField "user_id" to "UserId"
-func ToFiecld(wordStr string) string {
+func ToField(wordStr string) string {
 	arr :=strings.Split(wordStr, "_")
 	newArr := []string{}
 	for _, str := range arr {
