@@ -12,8 +12,6 @@ import (
 var Switch = &models.Switch{ TaskSwitch: true }
 
 func Start()  {
-	//robotgo.SetDelay(200, 200)
-
 	fmt.Println("--- Please press alt + q to stop hook ---")
 	hook.Register(hook.KeyDown, []string{"q", "alt"}, func(e hook.Event) {
 		fmt.Println("alt-q")

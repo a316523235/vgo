@@ -35,9 +35,9 @@ func TestListenAll(t *testing.T) {
 
 func TestExample(t *testing.T)  {
 	fmt.Println("test begin...")
-	addEvent()
+	//addEvent()
 
-	addMouse()
+	//addMouse()
 
 	lowLevel()
 }
@@ -86,3 +86,5 @@ func lowLevel() {
 		}
 	}
 }
+
+
