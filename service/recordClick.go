@@ -2,7 +2,9 @@ package service
 
 import (
 	"fmt"
+	"github.com/a316523235/wingo/common"
 	"github.com/go-vgo/robotgo"
+	"strings"
 )
 
 // Deprecated: use the RecordClickPositionV2(),
@@ -50,7 +52,7 @@ func RecordClickPositionV2() {
 		x, y := robotgo.GetMousePos()
 		cnt++
 		fmt.Println(cnt, "mleft pos:", x, y)
-		posList = append(posList, []int{x, y})
+		posList = append(posList, []int{x, y, 1})	//1 is sleep time
 
 		// if left mouse click same position greater or equal three times, break
 		if len(posList) > 1 && posList[len(posList) -1][0] == posList[len(posList) -2][0] && posList[len(posList) -1][1] == posList[len(posList) -2][1] {
@@ -62,5 +64,9 @@ func RecordClickPositionV2() {
 			break
 		}
 	}
-	fmt.Println(posList)
+	posStrList := []string{}
+	for _, pos := range posList {
+		posStrList = append(posStrList, "{" + common.IntJoin(pos) +  "}")
+	}
+	fmt.Println("{" + strings.Join(posStrList, ",") + "}")
 }

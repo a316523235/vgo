@@ -12,6 +12,8 @@ import (
 var Switch = &models.Switch{ TaskSwitch: true }
 
 func Start()  {
+	robotgo.SetDelay(200, 200)
+
 	fmt.Println("--- Please press alt + q to stop hook ---")
 	hook.Register(hook.KeyDown, []string{"q", "alt"}, func(e hook.Event) {
 		fmt.Println("alt-q")
@@ -63,6 +65,12 @@ func Start()  {
 		Switch.OpenTask()
 		fmt.Println("alt 3")
 		go GotoMergerLastSubmitToRelease()
+	})
+
+	fmt.Println("--- Please press alt 4 to start ReadWord task---")
+	hook.Register(hook.KeyHold, []string{"4", "ctrl"}, func(e hook.Event) {
+c		fmt.Println("alt 4")
+		go ReadWord()
 	})
 
 	s := hook.Start()
