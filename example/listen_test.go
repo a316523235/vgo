@@ -24,27 +24,6 @@ func TestListenRMouse(t *testing.T)  {
 	<- hook.Process(s)
 }
 
-var keyHoldChan chan hook.Event = make(chan hook.Event, 100)
-
-func TestListenAll(t *testing.T) {
-	hook.Register(hook.KeyHold, []string{}, func(e hook.Event) {
-		//fmt.Println(e.String())
-		keyHoldChan <- e
-	})
-
-	go func() {
-		for  {
-			select {
-			case s := <-keyHoldChan:
-				fmt.Println(s.String())
-			}
-		}
-	}()
-
-	s := hook.Start()
-	<- hook.Process(s)
-}
-
 func TestWriteByWord(t *testing.T) {
 	//time.Sleep(3 * time.Second)
 	robotgo.AddEvents("4", "alt")
@@ -76,4 +55,13 @@ func TestAltEnter(t *testing.T)  {
 	robotgo.SetDelay(100, 100)
 	robotgo.AddEvent("enter")
 	robotgo.TypeStr("here")
+}
+
+func TestAlt4(t *testing.T)  {
+	hook.Register(hook.KeyDown, []string{"4", "ctrl"}, func(e hook.Event) {
+		fmt.Println("alt 4")
+	})
+
+	s := hook.Start()
+	<-hook.Process(s)
 }
