@@ -69,7 +69,7 @@ func Start()  {
 
 	fmt.Println("--- Please press alt 4 to start ReadWord task---")
 	hook.Register(hook.KeyHold, []string{"4", "ctrl"}, func(e hook.Event) {
-c		fmt.Println("alt 4")
+		fmt.Println("alt 4")
 		go ReadWord()
 	})
 
