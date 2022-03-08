@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/a316523235/wingo/common"
 	"github.com/go-vgo/robotgo"
+	"github.com/robotn/gohook"
 	"time"
 )
 
@@ -12,7 +13,11 @@ var strArr = []string{}
 func ReadWord() {
 	time.Sleep(1 * time.Second)
 	strArr = []string{}
-	for i := 0; Switch.IsTaskOpen() && i < 4 * 20; i++ {
+	for i := 0; i < 4 * 20; i++ {
+		if !Switch.IsTaskOpen() {
+			return
+		}
+
 		robotgo.KeyTap("tab")
 		robotgo.MilliSleep(100)
 		robotgo.KeyTap("c","ctrl")
@@ -31,8 +36,13 @@ func ReadWord() {
 	}
 
 	fmt.Println("read over, please press \"enter\"")
-	robotgo.AddEvents("enter")
-	WriteCode()
+	isWaiting := true
+	robotgo.EventHook(hook.KeyDown, []string{"enter"}, func(event hook.Event) {
+		if isWaiting {
+			WriteCode()
+			isWaiting = false
+		}
+	})
 }
 
 func WriteCode()  {
@@ -40,7 +50,11 @@ func WriteCode()  {
 	//robotgo.AddEvent("enter")
 	//robotgo.MilliSleep(100)
 
-	for i := 0; Switch.IsTaskOpen()  && i < len(strArr) && i + 3 < len(strArr); i += 4 {
+	for i := 0; i < len(strArr) && i + 3 < len(strArr); i += 4 {
+		if !Switch.IsTaskOpen() {
+			return
+		}
+
 		s1, s2, s3, s4 := strArr[i], strArr[i+1], strArr[i+2], strArr[i+3]
 		robotgo.KeyPress("enter")
 		s := fmt.Sprintf("%s %s `json:\"%s%s\" yy:\"%s\"`", common.ToField(s1), s2, s1, common.AllowEmpty(s3), s4)
