@@ -87,4 +87,31 @@ func lowLevel() {
 	}
 }
 
+func TestAddEvent(t *testing.T)  {
+	fmt.Println("--- Please press ctrl + shift + q to stop hook ---")
+	robotgo.EventHook(hook.KeyDown, []string{"q", "ctrl", "shift"}, func(e hook.Event) {
+		fmt.Println("ctrl-shift-q")
+		robotgo.EventEnd()
+	})
+
+	fmt.Println("--- Please press w---")
+	robotgo.EventHook(hook.KeyDown, []string{"w"}, func(e hook.Event) {
+		fmt.Println("w")
+
+		robotgo.EventHook(hook.KeyDown, []string{"h"}, func(e hook.Event) {
+			fmt.Println("h")
+		})
+	})
+
+	robotgo.EventHook(hook.KeyDown, []string{"c"}, func(e hook.Event) {
+		fmt.Println("c")
+		robotgo.EventHook(hook.KeyDown, []string{"h"}, func(e hook.Event) {
+			//无
+		})
+	})
+
+	s := robotgo.EventStart()
+	<-robotgo.EventProcess(s)
+}
+
 

@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"github.com/a316523235/wingo/common"
 	"github.com/go-vgo/robotgo"
+	"github.com/robotn/gohook"
 	"strings"
 )
+
+var ClickPosList = [][]int{}
 
 // Deprecated: use the RecordClickPositionV2(),
 //
@@ -69,4 +72,40 @@ func RecordClickPositionV2() {
 		posStrList = append(posStrList, "{" + common.IntJoin(pos) +  "}")
 	}
 	fmt.Println("{" + strings.Join(posStrList, ",") + "}")
+}
+
+func RecordClickPositionV3() {
+	cnt := 0
+	robotgo.EventHook(hook.MouseDown, []string{}, func(e hook.Event) {
+		if e.Button == hook.MouseMap["left"] {
+			cnt++
+			x, y := robotgo.GetMousePos()
+			fmt.Println(cnt, "mleft pos:", x, y)
+			ClickPosList = append(ClickPosList, []int{x, y, 2})	//1 is sleep time
+		}
+	})
+
+	robotgo.EventHook(hook.KeyDown, []string{"enter"}, func(e hook.Event) {
+		PrintPos(false)
+	})
+}
+
+// PrintPos print and copy click position
+// isClear is clear position list
+func PrintPos(isClear bool)  {
+	if len(ClickPosList) > 0 {
+		posStrList := []string{}
+		for _, pos := range ClickPosList {
+			posStrList = append(posStrList, "{" + common.IntJoin(pos) +  "}")
+		}
+		res := "{" + strings.Join(posStrList, ",") + "}"
+		fmt.Println("break record")
+		fmt.Println(res)
+
+		_ = robotgo.WriteAll(res)
+
+		if isClear {
+			ClickPosList = [][]int{}
+		}
+	}
 }

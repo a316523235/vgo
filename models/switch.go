@@ -2,6 +2,7 @@ package models
 
 type Switch struct {
 	TaskSwitch bool
+	PrintKey bool
 }
 
 func (s *Switch) CloseTask() {
@@ -14,4 +15,8 @@ func (s *Switch) OpenTask()  {
 
 func (s *Switch) IsTaskOpen() bool {
 	return s.TaskSwitch == true
+}
+
+func (s *Switch) IsPrintKey() bool {
+	return s.PrintKey == true
 }

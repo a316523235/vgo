@@ -18,7 +18,7 @@ func TestListenRMouse(t *testing.T)  {
 			fmt.Println("mouse left")
 		}
 	})
-	
+
 	s := hook.Start()
 	<- hook.Process(s)
 }
@@ -63,4 +63,43 @@ func TestAlt4(t *testing.T)  {
 
 	s := hook.Start()
 	<-hook.Process(s)
+}
+
+func TestSleepOne(t *testing.T)  {
+	robotgo.EventHook(hook.KeyDown, []string{"h"}, func(e hook.Event) {
+		fmt.Println("h")
+		time.Sleep(3 * time.Second)
+	})
+
+	robotgo.EventHook(hook.KeyDown, []string{"w"}, func(e hook.Event) {
+		fmt.Println("w")
+	})
+
+	//kk := []string{
+	//	"num_enter",
+	//	"capslock",
+	//	"space",
+	//	"print",
+	//	"printscreen",
+	//}
+
+	robotgo.EventHook(hook.KeyDown, []string{"num_enter"}, func(e hook.Event) {
+		fmt.Println("num_enter")
+	})
+	//robotgo.EventHook(hook.KeyDown, []string{"capslock"}, func(e hook.Event) {
+	//	fmt.Println("capslock")
+	//})
+	//robotgo.EventHook(hook.KeyDown, []string{"space"}, func(e hook.Event) {
+	//	fmt.Println("space")
+	//})
+	//robotgo.EventHook(hook.KeyDown, []string{"print"}, func(e hook.Event) {
+	//	fmt.Println("print")
+	//})
+	//robotgo.EventHook(hook.KeyDown, []string{"printscreen"}, func(e hook.Event) {
+	//	fmt.Println("printscreen")
+	//})
+
+
+	s := robotgo.EventStart()
+	<-robotgo.EventProcess(s)
 }

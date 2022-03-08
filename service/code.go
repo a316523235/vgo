@@ -27,6 +27,7 @@ func ReadWord() {
 			break
 		}
 		strArr = append(strArr, str)
+		robotgo.MilliSleep(500)
 	}
 
 	fmt.Println("read over, please press \"enter\"")
@@ -48,9 +49,6 @@ func WriteCode()  {
 	}
 	//robotgo.TypeStr("here")
 	fmt.Println("---over---")
-
-
-
 }
 
 

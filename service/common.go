@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/a316523235/wingo/models"
 	"github.com/go-vgo/robotgo"
@@ -11,9 +12,10 @@ import (
 
 var Switch = &models.Switch{ TaskSwitch: true }
 
+
 func Start()  {
 	fmt.Println("--- Please press alt + q to stop hook ---")
-	hook.Register(hook.KeyDown, []string{"q", "alt"}, func(e hook.Event) {
+	robotgo.EventHook(hook.KeyDown, []string{"q", "alt"}, func(e hook.Event) {
 		fmt.Println("alt-q")
 		hook.End()	//exit listen
 	})
@@ -33,57 +35,51 @@ func Start()  {
 	//})
 
 	fmt.Println("--- Please press esc to break task---")
-	hook.Register(hook.KeyDown, []string{"esc"}, func(e hook.Event) {
+	robotgo.EventHook(hook.KeyDown, []string{"esc"}, func(e hook.Event) {
 		Switch.CloseTask()
 		fmt.Println("esc")
+		robotgo.EventEnd()
+		PrintPos(true) // copy pos by record click
+		Start()
 	})
 
 	fmt.Println("--- Please press alt 1 to start GotoMergerPage task---")
-	hook.Register(hook.KeyDown, []string{"1", "alt"}, func(e hook.Event) {
+	robotgo.EventHook(hook.KeyDown, []string{"1", "alt"}, func(e hook.Event) {
 		Switch.OpenTask()
 		fmt.Println("alt 1")
-		go GotoMergerPage()
+		GotoMergerPage()
 	})
 
 	fmt.Println("--- Please press alt 2 to start RecordClickPosition task---")
-	hook.Register(hook.KeyDown, []string{"2", "alt"}, func(e hook.Event) {
+	robotgo.EventHook(hook.KeyDown, []string{"2", "alt"}, func(e hook.Event) {
 		Switch.OpenTask()
 		fmt.Println("alt 2")
-		//go RecordClickPosition()
-		hook.StopEvent()
-		time.Sleep(100 * time.Millisecond)
-		RecordClickPositionV2()
-		time.Sleep(100 * time.Millisecond)
-		hook.End()
-		Start()
+		RecordClickPositionV3()
 	})
 
 	fmt.Println("--- Please press alt 3 to start GotoMergerLastSubmitToRelease task---")
-	hook.Register(hook.KeyDown, []string{"3", "alt"}, func(e hook.Event) {
+	robotgo.EventHook(hook.KeyDown, []string{"3", "alt"}, func(e hook.Event) {
 		Switch.OpenTask()
 		fmt.Println("alt 3")
-		go GotoMergerLastSubmitToRelease()
+		GotoMergerLastSubmitToRelease()
 	})
 
 	fmt.Println("--- Please press alt 4 to start ReadWord task---")
-	hook.Register(hook.KeyDown, []string{"4", "alt"}, func(e hook.Event) {
+	robotgo.EventHook(hook.KeyDown, []string{"4", "alt"}, func(e hook.Event) {
 		Switch.OpenTask()
 		fmt.Println("alt 4")
 		ReadWord()
-		time.Sleep(100 * time.Millisecond)
-		hook.StopEvent()
-		time.Sleep(100 * time.Millisecond)
-		hook.End()
-		Start()
 	})
 
-	hook.Register(hook.KeyDown, []string{"5", "alt"}, func(e hook.Event) {
-		fmt.Println("alt 5")
+	fmt.Println("--- Please press alt 5 to start Print Key ---")
+	robotgo.EventHook(hook.KeyDown, []string{"5", "alt"}, func(e hook.Event) {
+		Switch.OpenTask()
+		fmt.Println("alt-5")
+		PrintAllKeyCode()
 	})
 
-
-	s := hook.Start()
-	<-hook.Process(s)
+	s := robotgo.EventStart()
+	<-robotgo.EventProcess(s)
 }
 
 // Esc exit script
@@ -103,4 +99,13 @@ func Esc() {
 		fmt.Println("timeout over")
 		os.Exit(1)
 	}
+}
+
+func PrintAllKeyCode()  {
+	robotgo.EventHook(hook.KeyHold, []string{}, func(e hook.Event) {
+		str, _ := json.Marshal(e)
+		fmt.Println(string(str))
+		//fmt.Printf("%#v", e)
+	})
+	time.Sleep(1 * time.Millisecond)
 }
