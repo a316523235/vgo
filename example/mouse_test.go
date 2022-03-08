@@ -6,6 +6,7 @@ import (
 	"github.com/go-vgo/robotgo"
 	hook "github.com/robotn/gohook"
 	"testing"
+	"time"
 )
 
 func TestMouse1(t *testing.T) {
@@ -118,3 +119,10 @@ func TestGotoMergerLastSubmitToRelease(t *testing.T)  {
 	service.GotoMergerLastSubmitToRelease()
 }
 
+func TestMouseDwon(t *testing.T)  {
+	robotgo.ScrollMouse(500, "down")
+}
+func TestBooking(t *testing.T)  {
+	time.Sleep(2 * time.Second)
+	service.Booking()
+}

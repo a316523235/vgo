@@ -18,8 +18,7 @@ func TestListenRMouse(t *testing.T)  {
 			fmt.Println("mouse left")
 		}
 	})
-
-
+	
 	s := hook.Start()
 	<- hook.Process(s)
 }
