@@ -1,18 +1,35 @@
 package common
 
 import (
+	"fmt"
+	"github.com/go-vgo/robotgo"
 	"strconv"
 	"strings"
 )
 
-// ToRightScreen return x * 100 / 125
-func ToRightScreen(x, y int) (x100, y100 int) {
-	return x * 100 / 125, y * 100 / 125
+// To100to125 return x * 100 / 125
+func To100to125(x, y int) (x100, y100 int) {
+	// 左屏缩放125%时， GetScaleSize:4800 1350， TestGetScaleSize:3840 1080
+	// 右屏缩放100%时， GetScaleSize:3840 1350， TestGetScaleSize:3840 1080
+	_, h := robotgo.GetScaleSize()
+	_, sH := robotgo.GetScreenSize()
+	//return x * 100 / 125, y * 100 / 125
+	return x * sH / h, y * sH / h
 }
 
-// ToRightScreen return x * 100 / 125
+// To100to125 return x * 100 / 100
 func ToLeftScreen(x, y int) (x100, y100 int) {
 	return x * 100 / 100, y * 100 / 100
+}
+
+// GetRealPx return x * 125 / 100
+func GetRealPx(x, y int) (x100, y100 int)   {
+	_, h := robotgo.GetScaleSize()
+	_, sH := robotgo.GetScreenSize()
+
+	fmt.Println(h, sH)
+
+	return x * h / sH, y * h / sH
 }
 
 // IntJoin [1,2,3] to 1,2,3

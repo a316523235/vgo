@@ -13,7 +13,7 @@ func GotoMergerPage() {
 		if !Switch.IsTaskOpen() {
 			break
 		}
-		robotgo.MoveClick(common.ToRightScreen(pos[0], pos[1]))
+		robotgo.MoveClick(common.To100to125(pos[0], pos[1]))
 		x, y := robotgo.GetMousePos()
 		fmt.Println(i, "mleft pos:", x, y)
 		robotgo.Sleep(pos[2])
@@ -41,7 +41,7 @@ func GotoMergerLastSubmitToRelease() {
 		if !Switch.IsTaskOpen() {
 			break
 		}
-		robotgo.MoveClick(common.ToRightScreen(pos[0], pos[1]))
+		robotgo.MoveClick(common.To100to125(pos[0], pos[1]))
 		x, y := robotgo.GetMousePos()
 		fmt.Println(i, "mleft pos:", x, y)
 		robotgo.Sleep(pos[2])

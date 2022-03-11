@@ -17,7 +17,7 @@ func Start()  {
 	fmt.Println("--- Please press alt + q to stop hook ---")
 	robotgo.EventHook(hook.KeyDown, []string{"q", "alt"}, func(e hook.Event) {
 		fmt.Println("alt-q")
-		hook.End()	//exit listen
+		robotgo.EventEnd()	//exit listen
 	})
 
 	//fmt.Println("--- Please press alt + o to start hook ---")
@@ -80,6 +80,20 @@ func Start()  {
 		go PrintAllKeyCode()
 	})
 
+	fmt.Println("--- Please press alt 6 to start Booking Key ---")
+	robotgo.EventHook(hook.KeyDown, []string{"6", "alt"}, func(e hook.Event) {
+		Switch.OpenTask()
+		fmt.Println("alt-6")
+		go Booking()
+	})
+
+	fmt.Println("--- Please press alt 7 to start PrintPosition Key ---")
+	robotgo.EventHook(hook.KeyDown, []string{"7", "alt"}, func(e hook.Event) {
+		Switch.OpenTask()
+		fmt.Println("alt-7")
+		go PrintPosition()
+	})
+
 	s := robotgo.EventStart()
 	<-robotgo.EventProcess(s)
 }
@@ -108,6 +122,14 @@ func PrintAllKeyCode()  {
 		str, _ := json.Marshal(e)
 		fmt.Println(string(str))
 		//fmt.Printf("%#v", e)
+	})
+	time.Sleep(1 * time.Millisecond)
+}
+
+func PrintPosition()  {
+	robotgo.EventHook(hook.KeyHold, []string{"alt"}, func(e hook.Event) {
+		x, y := robotgo.GetMousePos()
+		fmt.Printf("{%d, %d},\n\r", x, y)
 	})
 	time.Sleep(1 * time.Millisecond)
 }

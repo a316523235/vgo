@@ -103,3 +103,35 @@ func TestSleepOne(t *testing.T)  {
 	s := robotgo.EventStart()
 	<-robotgo.EventProcess(s)
 }
+
+func TestDoubleKey(t *testing.T)  {
+	robotgo.EventHook(hook.KeyDown, []string{"1", "2"}, func(e hook.Event) {
+		fmt.Println("double 1")
+	})
+	s := robotgo.EventStart()
+	<-robotgo.EventProcess(s)
+}
+
+func TestDoubleKey2(t *testing.T)  {
+	robotgo.AddEvents("q", "ctrl")
+	fmt.Println("ok")
+}
+
+func TestDoubleKey3(t *testing.T)  {
+	robotgo.EventHook(hook.KeyDown, []string{"1"}, func(e hook.Event) {
+		fmt.Println("1")
+		robotgo.EventEnd()
+	})
+
+	robotgo.EventHook(hook.KeyDown, []string{"2"}, func(e hook.Event) {
+		fmt.Println("2")
+		go robotgo.AddEvents("q", "ctrl")
+	})
+
+	robotgo.EventHook(hook.KeyDown, []string{"3"}, func(e hook.Event) {
+
+	})
+
+	s := robotgo.EventStart()
+	<-robotgo.EventProcess(s)
+}
