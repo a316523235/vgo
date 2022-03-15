@@ -27,7 +27,7 @@ func Booking()  {
 		if !Switch.IsTaskOpen() {
 			break
 		}
-		robotgo.MoveClick(common.ToLeftScreen(pos[0], pos[1]))
+		robotgo.MoveClick(common.GetLeftXy(pos[0], pos[1]))
 		x, y := robotgo.GetMousePos()
 		fmt.Println(i, "mleft pos:", x, y)
 		robotgo.Sleep(pos[2])

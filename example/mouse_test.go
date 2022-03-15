@@ -2,6 +2,7 @@ package example
 
 import (
 	"fmt"
+	"github.com/a316523235/wingo/common"
 	"github.com/a316523235/wingo/service"
 	"github.com/go-vgo/robotgo"
 	hook "github.com/robotn/gohook"
@@ -125,5 +126,14 @@ func TestMouseDwon(t *testing.T)  {
 func TestBooking(t *testing.T)  {
 	time.Sleep(2 * time.Second)
 	service.Booking()
+}
+
+func TestTemp1(t *testing.T)  {
+	//{0, 0}, {1535, 0}, {1920, 0}, {3839, 0},
+	//{0, 863}, {1535, 863}, {1920, 1079}, {3839, 1079},
+	robotgo.Sleep(2)
+	x, y := common.GetRightXy(3822,58)
+	fmt.Println(x, y)
+	robotgo.Move(x, y)
 }
 
