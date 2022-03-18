@@ -36,7 +36,7 @@ func GotoMergerLastSubmitToRelease() {
 		{3496, 308, 3},
 		//{3349, 405, 2},
 		{3349, 405, 2}, 	//after click here must input 'release'
-		{3385, 454, 2},
+		{3385, 444, 2},
 		{2457, 450, 2},		//after click find Assignee and select user
 	}
 	for i, pos := range posList {
