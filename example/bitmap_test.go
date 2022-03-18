@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/a316523235/wingo/common"
+	"github.com/a316523235/wingo/service"
 	"github.com/go-vgo/robotgo"
 	"strconv"
 	"testing"
@@ -208,4 +209,58 @@ func clickBitmap(bmp robotgo.Bitmap, doubleClick bool) bool {
 	}
 
 	return false
+}
+
+func TestFindBitMapXy(t *testing.T)  {
+	robotgo.Sleep(2)
+	x, y, err := service.FindBitMapXy("merge_assignee.png")
+	fmt.Println(x, y, err)
+	if err != nil {
+		return
+	}
+	robotgo.Sleep(2)
+
+	x, y = x + 150, y + 20
+	fmt.Println(x, y)
+	robotgo.MoveClick(common.GetRightXy(x, y))
+	robotgo.Sleep(2)
+
+	x, y = x, y - 275
+	fmt.Println(x, y)
+	robotgo.MoveClick(common.GetRightXy(x, y))
+	robotgo.Sleep(2)
+	//return
+
+	// check user
+	userName := "liq"
+	projectMap := map[string]string{
+		"merge_go-mye.png":           "lins",
+		"merge_adx.png":          "lins",
+		"merge_go-advertise.png": "lins",
+	}
+	for project, tempName  := range projectMap {
+		_, _, err = service.FindBitMapXy(project)
+		if err == nil {
+			userName = tempName
+			break
+		}
+	}
+
+	robotgo.TypeStr(userName)
+	robotgo.Sleep(2)
+
+	x, y = x, y + 50
+	fmt.Println(x, y)
+	robotgo.MoveClick(common.GetRightXy(x, y))
+	robotgo.Sleep(2)
+
+
+
+	//2467 411 <nil>
+	// 2613 434
+	// 2616 532
+	// 2680 586
+
+
+	//2657 460
 }

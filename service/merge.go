@@ -33,11 +33,11 @@ func GotoMergerLastSubmitToRelease() {
 		{3398, 175, 2},
 		{2635, 259, 2},	// click two position
 		{2700, 259, 2}, // click two position
-		{3496, 308, 2},
+		{3496, 308, 3},
 		//{3349, 405, 2},
 		{3349, 405, 2}, 	//after click here must input 'release'
 		{3385, 454, 2},
-		{2457, 432, 2},
+		{2457, 450, 2},		//after click find Assignee and select user
 	}
 	for i, pos := range posList {
 		if !Switch.IsTaskOpen() {
@@ -51,6 +51,52 @@ func GotoMergerLastSubmitToRelease() {
 		if pos[0] == 3349 && pos[1] == 405 {
 			//robotgo.KeyPress()
 			robotgo.TypeStr("release")
+			robotgo.Sleep(2)
+		}
+
+		if pos[0] == 2457 && pos[1] == 450 {
+			// find assignee.png x,y
+			x, y, err := FindBitMapXy("merge_assignee.png")
+			fmt.Println(x, y, err)
+			if err != nil {
+				return
+			}
+			robotgo.Sleep(2)
+
+			// move to input
+			x, y = x + 150, y + 20
+			fmt.Println(x, y)
+			robotgo.MoveClick(common.GetRightXy(x, y))
+			robotgo.Sleep(2)
+
+			// move to search and input
+			x, y = x, y - 275
+			fmt.Println(x, y)
+			robotgo.MoveClick(common.GetRightXy(x, y))
+			robotgo.Sleep(2)
+
+			// check user
+			userName := "liq"
+			projectMap := map[string]string{
+				"merge_go-mye.png":       "lins",
+				"merge_adx.png":          "lins",
+				"merge_go-advertise.png": "lins",
+			}
+			for project, tempName  := range projectMap {
+				_, _, err = FindBitMapXy(project)
+				if err == nil {
+					userName = tempName
+					break
+				}
+			}
+
+			robotgo.TypeStr(userName)
+			robotgo.Sleep(2)
+
+			// select user
+			x, y = x, y + 50
+			fmt.Println(x, y)
+			robotgo.MoveClick(common.GetRightXy(x, y))
 			robotgo.Sleep(2)
 		}
 	}

@@ -2,7 +2,9 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"github.com/a316523235/wingo/conf"
 	"github.com/a316523235/wingo/models"
 	"github.com/go-vgo/robotgo"
 	hook "github.com/robotn/gohook"
@@ -132,4 +134,14 @@ func PrintPosition()  {
 		fmt.Printf("{%d, %d},\n\r", x, y)
 	})
 	time.Sleep(1 * time.Millisecond)
+}
+
+func FindBitMapXy(imageName string) (x, y int, err error) {
+	filePath := conf.SavePath + imageName
+	newBitMap := robotgo.OpenBitmap(filePath)
+	x, y = robotgo.FindBitmap(newBitMap)
+	if x  < 0 || y < 0 {
+		return 0, 0, errors.New("not find")
+	}
+	return x, y, nil
 }
