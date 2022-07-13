@@ -25,7 +25,7 @@ func GotoMergerPage() {
 func GotoMergerLastSubmitToRelease() {
 	//[[3398 175] [2635 259] [2635 259] [3496 308] [3349 405] [3349 405] [3385 454] [2457 432] [2404 584] [2404 584] [2404 584]]
 	// record by 125%
-	posList := [][]int{
+	posList := [][4]int{
 		{3822, 58, 1},
 		{3566, 190, 1},
 		{2072, 95, 1},
@@ -35,9 +35,11 @@ func GotoMergerLastSubmitToRelease() {
 		{2700, 259, 2}, // click two position
 		{3496, 308, 3},
 		//{3349, 405, 2},
-		{3349, 405, 2}, 	//after click here must input 'release'
+		{3349, 405, 3, 101}, 	//after click here must input 'release'
 		{3385, 444, 2},
-		{2457, 450, 2},		//after click find Assignee and select user
+		{2457, 434, 2},		//click two position
+		// not to select user
+		//{2457, 454, 2, 102},//click two position, after click find Assignee and select user
 	}
 	for i, pos := range posList {
 		if !Switch.IsTaskOpen() {
@@ -48,18 +50,20 @@ func GotoMergerLastSubmitToRelease() {
 		fmt.Println(i, "mleft pos:", x, y)
 		robotgo.Sleep(pos[2])
 
-		if pos[0] == 3349 && pos[1] == 405 {
+		if pos[3] == 101 {
 			//robotgo.KeyPress()
 			robotgo.TypeStr("release")
-			robotgo.Sleep(2)
+			robotgo.Sleep(3)
 		}
 
-		if pos[0] == 2457 && pos[1] == 450 {
+		if pos[3] == 102 {
 			// find assignee.png x,y
 			x, y, err := FindBitMapXy("merge_assignee.png")
 			fmt.Println(x, y, err)
 			if err != nil {
-				return
+				//{2651, 737, 2},	if not find, use default position
+				x, y = 2651, 730
+				//return
 			}
 			robotgo.Sleep(2)
 
