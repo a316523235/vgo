@@ -96,11 +96,11 @@ func Start()  {
 		go PrintPosition()
 	})
 
-	fmt.Println("--- Please press alt 8 to start PrintPosition Key ---")
+	fmt.Println("--- Please press alt 8 to start AddDepartmentAuth  Key ---")
 	robotgo.EventHook(hook.KeyDown, []string{"8", "alt"}, func(e hook.Event) {
 		Switch.OpenTask()
 		fmt.Println("alt-8")
-		go GotoAddDepartmentAuth()
+		go AddDepartmentAuth()
 	})
 
 	s := robotgo.EventStart()

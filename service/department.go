@@ -11,7 +11,7 @@ type auth struct {
 	Name string
 }
 
-func GotoAddDepartmentAuth() {
+func AddDepartmentAuth() {
 	// record by 125%
 	//str, err := robotgo.ReadAll()
 	//if err != nil {
@@ -23,14 +23,15 @@ func GotoAddDepartmentAuth() {
 	departmentList := []auth{
 		{"admin", "不限"},
 		{"east", "华东"},
-		{"north", "华南"},
-		{"south", "华北"},
+		{"south", "华南"},
+		{"north", "华北"},
 		{"southwest_test", "西南测试"},
 		{"test", "测试"},
 	}
 
 	posList := [][4]int{
-		{2691, 326, 2}, //add button
+		//{2691, 326, 3}, //add button
+		{3517, 452, 2}, //add button
 		{2615, 369, 1, 101},      //auth name
 		{2616, 420, 1, 102},      //auth code
 		{2576, 456, 1, 103},      //auth url
@@ -78,6 +79,6 @@ func GotoAddDepartmentAuth() {
 				robotgo.Sleep(2)
 			}
 		}
-		robotgo.Sleep(3)
+		robotgo.Sleep(4)
 	}
 }
