@@ -18,8 +18,9 @@ func AddDepartmentAuth() {
 	//	fmt.Println(err.Error())
 	//}
 
-	//authCode, authName := "yj/consumestat/index", "财务管理-消费统计(柚+)"
-	authCode, authName := "yj/newly/index", "柚+新开客户统计"
+	// 父类权限代码要加上 ?parent
+	authCode, authName := "yj/consumestat/index", "财务管理-消费统计(柚+)"
+	//authCode, authName := "yj/newly/index", "柚+新开客户统计"
 	departmentList := []auth{
 		{"admin", "不限"},
 		{"east", "华东"},

@@ -38,6 +38,7 @@ func GotoMergerLastSubmitToRelease() {
 		{3349, 405, 3, 101}, 	//after click here must input 'release'
 		{3385, 444, 2},
 		{2457, 434, 2},		//click two position
+		{2457, 444, 2},		//click two position
 		// not to select user
 		//{2457, 454, 2, 102},//click two position, after click find Assignee and select user
 	}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/a316523235/wingo/conf"
 	"github.com/a316523235/wingo/models"
+	"github.com/a316523235/wingo/util"
 	"github.com/go-vgo/robotgo"
 	hook "github.com/robotn/gohook"
 	"os"
@@ -13,6 +14,38 @@ import (
 )
 
 var Switch = &models.Switch{ TaskSwitch: true }
+var CurrentWin = robotgo.GetActive()
+var CurrentPosX, currentPoxY = robotgo.GetMousePos()
+
+func StartV2()  {
+	CurrentWin = robotgo.GetActive()
+	CurrentPosX, currentPoxY = robotgo.GetMousePos()
+	showWingo()
+	fmt.Println("-----select itemList------")
+	arr := []string{
+		"1、替换内容",
+		"2、start ai",
+	}
+	for _, str := range arr {
+		fmt.Println(str)
+	}
+
+	idx := utils.ReadInt()
+	switch idx {
+	case 1:
+		fmt.Println("------" + arr[0] + "  starting ... ------")
+		robotgo.Sleep(1)
+		ReplaceCode()
+	case 2:
+		Switch.OpenTask()
+		fmt.Println("------" + arr[1] + "  starting ... ------")
+		robotgo.Sleep(1)
+		go StartMyGpt2()
+	default:
+		fmt.Println()
+		fmt.Println("unKnow item")
+	}
+}
 
 
 func Start()  {
@@ -47,11 +80,13 @@ func Start()  {
 		Start()
 	})
 
+
 	fmt.Println("--- Please press alt 1 to start GotoMergerPage task---")
 	robotgo.EventHook(hook.KeyDown, []string{"1", "alt"}, func(e hook.Event) {
 		Switch.OpenTask()
 		fmt.Println("alt 1")
-		go GotoMergerPage()
+		//go GotoMergerPage()
+		go StartV2()
 	})
 
 	fmt.Println("--- Please press alt 2 to start RecordClickPosition task---")
@@ -101,6 +136,13 @@ func Start()  {
 		Switch.OpenTask()
 		fmt.Println("alt-8")
 		go AddDepartmentAuth()
+	})
+
+	fmt.Println("--- Please press alt 9 to start ReadEn  Key ---")
+	robotgo.EventHook(hook.KeyDown, []string{"9", "alt"}, func(e hook.Event) {
+		Switch.OpenTask()
+		fmt.Println("alt-9")
+		go ReadEn()
 	})
 
 	s := robotgo.EventStart()

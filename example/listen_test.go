@@ -1,11 +1,14 @@
 package example
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/a316523235/wingo/common"
 	"github.com/a316523235/wingo/service"
 	"github.com/go-vgo/robotgo"
 	"github.com/robotn/gohook"
+	"os"
+	"strings"
 	"testing"
 	"time"
 )
@@ -134,4 +137,64 @@ func TestDoubleKey3(t *testing.T)  {
 
 	s := robotgo.EventStart()
 	<-robotgo.EventProcess(s)
+}
+
+func TestOther(t *testing.T)  {
+	robotgo.EventHook(hook.KeyDown, []string{"alt", "alt"}, func(e hook.Event) {
+		x, y := robotgo.GetMousePos()
+		fmt.Println(e.String())
+		fmt.Printf("xx3 {%d, %d},\n\r", x, y)
+	})
+
+
+	s := robotgo.EventStart()
+	<-robotgo.EventProcess(s)
+}
+
+func TestTryWrite(t *testing.T)  {
+	robotgo.Sleep(3)
+	fmt.Println("begin")
+
+	find, newString := "vgo", "ngo"
+	findUpper, newStringUpper := "Vgo", "Ngo"
+
+	i := 0
+	x, y := robotgo.GetMousePos()
+	for {
+		robotgo.Sleep(1)
+		robotgo.KeyTap("home")
+		robotgo.KeyTap("end", "shift")
+		robotgo.KeyTap("c", "ctrl")
+		str, _ := robotgo.ReadAll()
+		fmt.Println("读取:" + str)
+		newStr := strings.ReplaceAll(str, find, newString)
+		if findUpper != "" {
+			fmt.Println("替换:" + newStr)
+			newStr = strings.ReplaceAll(newStr, findUpper, newStringUpper)
+		}
+		robotgo.TypeStr(newStr)
+		fmt.Println("输出完毕")
+		robotgo.Sleep(3)
+		println(x, y)
+		robotgo.Sleep(3)
+		robotgo.KeyTap("down")
+		robotgo.Click()
+		robotgo.Sleep(3)
+		newX, newY := robotgo.GetMousePos()
+		println(newX, newY)
+		i++
+		if newY == y {
+			fmt.Println("yi yang")
+			break
+		}
+	}
+}
+
+func TestInput(t *testing.T)  {
+	reader := bufio.NewReader(os.Stdin)
+	str, _, err := reader.ReadLine()
+	if err != nil {
+		fmt.Println("readString err, msg" + err.Error())
+	}
+	fmt.Println(str)
 }
