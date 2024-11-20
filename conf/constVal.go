@@ -2,4 +2,4 @@ package conf
 
 const SavePath = "d:/hzj/bitmap/"
 
-const AIKey  = ""
+const AIKey  = "WK8uISNRzVNZP4YsLR7tT3BlbkFJdVNkihPS8vORjpkICsrG"

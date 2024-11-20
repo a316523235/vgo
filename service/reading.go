@@ -22,7 +22,7 @@ func ReadEn()  {
 		}
 		str := lineArr[currentLine]
 		//robotgo.TypeStr(str + "\n")
-		fmt.Println(str + "\n")
+		fmt.Print("\n" +  strings.ReplaceAll(str, "\n", ""))
 		robotgo.Sleep(15)
 	}
 }

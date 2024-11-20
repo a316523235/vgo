@@ -1,11 +1,7 @@
 package conf
 
 const EN1  = `
-
-
-第五部分：英译汉 
-   
-
+第五部分：英译汉
 A
 1. A dog is always well-known as a clever and friendly animal.	  在动物中，狗素以其聪明与和善而著称。
 2. A friend of mine from high school is working in England now.  我高中的一个朋友正在英格兰工作。
